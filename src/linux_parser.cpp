@@ -15,6 +15,40 @@ using std::unordered_map;
 using std::stoll;
 
 
+// return string converted to long
+long LinuxParser::to_long(string number) {
+  return stoll(number, nullptr, 10);
+}
+
+// return single line of data from a file, eg. /proc/[PID]/stat
+string LinuxParser::GetFileLine(string FileName) {
+  string line;
+  std::ifstream filestream(FileName);
+  if (filestream.is_open()) {
+    std::getline(filestream, line);
+    return line;
+  } else {
+    return NULL;
+  }
+}
+
+// return vector of tokens from line of data with space " " as delimiter
+// derived from: https://www.geeksforgeeks.org/tokenizing-a-string-cpp/
+vector <string> tokenize (string line) {
+  vector <string> tokens; 
+  
+  // stringstream class check1 
+  std::stringstream check1(line); 
+    
+  string intermediate; 
+  
+  while(getline(check1, intermediate, ' ')) 
+  { 
+      tokens.push_back(intermediate); 
+  }
+  return tokens; 
+}
+
 // BONUS: Update this to use std::filesystem
 vector<int> LinuxParser::Pids() {
   vector<int> pids;
@@ -34,11 +68,6 @@ vector<int> LinuxParser::Pids() {
   closedir(directory);
 
   return pids;
-}
-
-// return string converted to long
-long LinuxParser::to_long(string number) {
-  return stoll(number, nullptr, 10);
 }
 
 // Read data from file: /proc/stat
@@ -112,6 +141,8 @@ bool LinuxParser::GetValueFileStatCPU(unordered_map<string, string> & parms) {
   }
   return false;
 }
+
+
 
 // SYSTEM DATA
 
@@ -212,7 +243,29 @@ string LinuxParser::User(int pid) {
 
 // TODO: Read and return CPU utilization of process
 float LinuxParser::CpuUtilization(int pid) { 
-  return 0.45; 
+  // using algorithm: https://stackoverflow.com/questions/16726779/how-do-i-get-the-total-cpu-usage-of-an-application-from-proc-pid-stat/16736599#16736599
+  
+  // get all tokens from the process's stat file
+  string FileName = kProcDirectory + to_string(pid) + kStatFilename;
+  string line = GetFileLine(FileName);
+  vector <string> tokens = tokenize(line);
+
+  // extract needed tokens
+  long utime = to_long(tokens[13]);
+  long stime = to_long(tokens[14]);
+  long cutime = to_long(tokens[15]);
+  long cstime = to_long(tokens[16]);
+  long starttime = to_long(tokens[21]);
+
+  // get additional data
+  long uptime = UpTime();
+  long Hertz = sysconf(_SC_CLK_TCK);  // clock ticks per second
+  
+  // calculation
+  long total_time = utime + stime + cutime + cstime;
+  float seconds = float(uptime) - float(starttime / Hertz);
+  float cpu_usage = 100 * (float(total_time / Hertz) / seconds);
+  return cpu_usage; 
 }
 
 // TODO: Read and return the memory used by a process

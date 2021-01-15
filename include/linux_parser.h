@@ -34,6 +34,7 @@ std::string GetValueFileColon(std::string, std::string);
 std::string GetValueFilePasswd(std::string);
 bool GetValueFileStatCPU(std::unordered_map<std::string, std::string> &); 
 long to_long(std::string);
+std::string GetFileLine(std::string);
 
 // CPU
 enum CPUStates {

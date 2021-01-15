@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "process.h"
 #include "linux_parser.h"
@@ -22,7 +23,10 @@ int Process::Pid() { return pid_; }
 string Process::User() { return LinuxParser::User(pid_); } 
 
 // TODO: Return this process's CPU utilization
-float Process::CpuUtilization() { return LinuxParser::CpuUtilization(pid_); }
+float Process::CpuUtilization() { 
+    CpuUtilization_ = LinuxParser::CpuUtilization(pid_);
+    return CpuUtilization_;
+}
 
 // TODO: Return this process's memory utilization
 string Process::Ram() { return string(); }
@@ -35,4 +39,6 @@ string Process::Command() { return string(); }
 
 // TODO: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function
-bool Process::operator<(Process const& a[[maybe_unused]]) const { return true; }
+bool Process::operator<(Process const& a) const { 
+    return this->CpuUtilization_ > a.CpuUtilization_; 
+}

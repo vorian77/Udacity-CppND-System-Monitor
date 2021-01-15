@@ -48,10 +48,14 @@ vector<Process>& System::Processes() {
     // for each process id...
     for (int pid: pid_list) {
         // create a process object
-        Process new_process (pid);
+        Process new_process(pid);
         
         // add the process object to the process list
         processes_.push_back(new_process);
     };
+
+    // sort processes based on CPU utilization using override of "less than" operator 
+    std::sort(processes_.begin(), processes_.end());
+    
     return processes_; 
 }
