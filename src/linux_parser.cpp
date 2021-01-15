@@ -39,15 +39,13 @@ string LinuxParser::OperatingSystem() {
 
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::Kernel() {
-  //string os, kernel;
   string os, version, kernel;
   string line;
   std::ifstream stream(kProcDirectory + kVersionFilename);
   if (stream.is_open()) {
     std::getline(stream, line);
     std::istringstream linestream(line);
-    //linestream >> os >> kernel;
-    linestream >> os >> version >> kernel;  // corrected version to get 3rd token
+    linestream >> os >> version >> kernel;
   }
   return kernel;
 }
@@ -69,6 +67,7 @@ vector<int> LinuxParser::Pids() {
     }
   }
   closedir(directory);
+
   return pids;
 }
 
@@ -96,16 +95,15 @@ string LinuxParser::GetValueFileStat(string TargetKey) {
   return value;
 }
 
-// Read data from file: /proc/meminfo
-string LinuxParser::GetValueFileMeminfo(string TargetKey) {
-  string line;
-  string key, value, unit;
-  std::ifstream filestream(kProcDirectory + kMeminfoFilename);
+// Read first value of data from files with key followed by a colon, eg. Uid:
+string LinuxParser::GetValueFileColon(string FileName, string TargetKey) {
+  string line, key, value;
+  std::ifstream filestream(kProcDirectory + FileName);
   if (filestream.is_open()) {
     while (std::getline(filestream, line)) {
       std::replace(line.begin(), line.end(), ':', ' ');
       std::istringstream linestream(line);
-      while (linestream >> key >> value >> unit) {
+      while (linestream >> key >> value) {
         if (key == TargetKey) {
           return value;
         }
@@ -120,10 +118,10 @@ float LinuxParser::MemoryUtilization() {
   // return memory used as memory used / total memory, 
   // where memory used is //proc/meminfo MemTotal - MemFree
   long MemTotal, MemFree;
-  float MemUtilization;
 
-  MemTotal = to_long(GetValueFileMeminfo("MemTotal"));
-  MemFree = to_long(GetValueFileMeminfo("MemFree"));
+  MemTotal = to_long(GetValueFileColon(kMeminfoFilename, "MemTotal"));
+  MemFree = to_long(GetValueFileColon(kMeminfoFilename, "MemFree"));
+
   return float(MemTotal - MemFree) / float(MemTotal);
 }
 
@@ -193,11 +191,19 @@ string LinuxParser::Ram(int pid[[maybe_unused]]) { return string(); }
 
 // TODO: Read and return the user ID associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Uid(int pid[[maybe_unused]]) { return string(); }
+string LinuxParser::Uid(int pid) {  
+  return GetValueFileColon(to_string(pid) + kStatusFilename, "Uid"); 
+}
 
 // TODO: Read and return the user associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::User(int pid[[maybe_unused]]) { return string(); }
+string LinuxParser::User(int pid) { 
+  // use pid to retrieve uid
+  string uid = Uid(pid);
+
+  // use uid to retrieve user name
+  return string(uid); 
+}
 
 // TODO: Read and return the uptime of a process
 // REMOVE: [[maybe_unused]] once you define the function

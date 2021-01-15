@@ -30,7 +30,7 @@ std::string OperatingSystem();
 std::string Kernel();
 std::string GetValueFileStat(std::string); 
 std::string GetValueFileUptime(); 
-std::string GetValueFileMeminfo(std::string); 
+std::string GetValueFileColon(std::string FileName, std::string TargetKey);
 bool GetValueFileStatCPU(std::unordered_map<std::string, std::string> &); 
 long to_long(std::string);
 
