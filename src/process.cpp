@@ -13,32 +13,37 @@ using std::to_string;
 using std::vector;
 
 // constructor
-Process::Process(int pid) { pid_ = pid; }
+Process::Process(int pid) { 
+    pid_ = pid; 
+    User_ = LinuxParser::User(pid);
+    CpuUtilization_ = LinuxParser::CpuUtilization(pid);
+    RamUtilization_ = LinuxParser::Ram(pid);
+    Uptime_ = 0;
+    Command_ = string();
+}
 
 // TODO: Return this process's ID
 int Process::Pid() { return pid_; }
 
 // TODO: Return the user (name) that generated this process
 //string Process::User() { return string(); }
-string Process::User() { return LinuxParser::User(pid_); } 
+string Process::User() { return User_; } 
 
 // TODO: Return this process's CPU utilization
-float Process::CpuUtilization() { 
-    CpuUtilization_ = LinuxParser::CpuUtilization(pid_);
-    return CpuUtilization_;
-}
+float Process::CpuUtilization() { return CpuUtilization_; }
 
 // TODO: Return this process's memory utilization
-string Process::Ram() { return string(); }
+string Process::Ram() { return to_string(RamUtilization_); }
 
 // TODO: Return the age of this process (in seconds)
-long int Process::UpTime() { return 0; }
+long int Process::UpTime() { return Uptime_; }
 
 // TODO: Return the command that generated this process
-string Process::Command() { return string(); }
+string Process::Command() { return Command_; }
 
 // TODO: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function
 bool Process::operator<(Process const& a) const { 
-    return this->CpuUtilization_ > a.CpuUtilization_; 
+    return this->CpuUtilization_ > a.CpuUtilization_;
+    //return this->RamUtilization_ > a.RamUtilization_; 
 }

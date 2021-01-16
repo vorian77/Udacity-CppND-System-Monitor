@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-../include/format.h
-string
--
-
 ../include/ncurses_display.h
 curses.h
 -
@@ -38,21 +34,15 @@ process.h
 processor.h
 ../include/processor.h
 
-/home/phyllip/Documents/projects/CppND-System-Monitor/src/ncurses_display.cpp
-curses.h
--
-chrono
--
-string
--
-thread
--
-vector
--
-format.h
-/home/phyllip/Documents/projects/CppND-System-Monitor/src/format.h
+/home/phyllip/Documents/projects/CppND-System-Monitor/src/main.cpp
 ncurses_display.h
 /home/phyllip/Documents/projects/CppND-System-Monitor/src/ncurses_display.h
 system.h
 /home/phyllip/Documents/projects/CppND-System-Monitor/src/system.h
+vector
+-
+iostream
+-
+process.h
+/home/phyllip/Documents/projects/CppND-System-Monitor/src/process.h
 

@@ -270,7 +270,12 @@ float LinuxParser::CpuUtilization(int pid) {
 
 // TODO: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Ram(int pid[[maybe_unused]]) { return string(); }
+int LinuxParser::Ram(int pid) { 
+  string RamInKb = GetValueFileColon(to_string(pid) + kStatusFilename, "VmSize");
+  
+  // cast ram in megabytes
+  return to_long(RamInKb) / 1000;
+}
 
 // TODO: Read and return the uptime of a process
 // REMOVE: [[maybe_unused]] once you define the function
@@ -283,4 +288,3 @@ string LinuxParser::Command(int pid[[maybe_unused]]) { return string(); }
 // TODO: Read and return the number of active jiffies for a PID
 // REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
-

@@ -54,7 +54,7 @@ vector<Process>& System::Processes() {
         processes_.push_back(new_process);
     };
 
-    // sort processes based on CPU utilization using override of "less than" operator 
+    // sort processes based on override of "less than" operator 
     std::sort(processes_.begin(), processes_.end());
     
     return processes_; 
