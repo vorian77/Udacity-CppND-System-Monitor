@@ -44,6 +44,5 @@ string Process::Command() { return Command_; }
 // TODO: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function
 bool Process::operator<(Process const& a) const { 
-    return this->CpuUtilization_ > a.CpuUtilization_;
-    //return this->RamUtilization_ > a.RamUtilization_; 
+    return this->RamUtilization_ > a.RamUtilization_; 
 }
