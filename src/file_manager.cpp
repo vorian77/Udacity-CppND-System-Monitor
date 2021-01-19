@@ -76,17 +76,21 @@ bool Stream::GetLineExtract(std::ifstream &filestream, string &line) {
 
 void Stream::GetLineScrub(string &line) {
     // remove unused characters from line
-    // using algorithm: http://www.cplusplus.com/forum/beginner/185953/
     std::string::size_type pos;
 
+    // remove "quotes"
+    // derived from https://stackoverflow.com/questions/83439/remove-spaces-from-stdstring-in-c
+    line.erase(remove(line.begin(), line.end(), '"'), line.end());
+
     // replace 'tabs' with spaces
+    // derived from: http://www.cplusplus.com/forum/beginner/185953/
     while((pos = line.find("\t")) != std::string::npos)
         { line.replace(pos, 1, " "); }
 
     // remove multiple spaces
     while((pos = line.find("  ")) != std::string::npos)
         { line.replace(pos, 2, " "); }
-}
+ }
     
 void Stream::GetLineSplit(string &line, char delimiter, std::vector <string> &RawTokens) {
     // create a vector of strings containing all the data items in the 

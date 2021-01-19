@@ -8,6 +8,7 @@ CMakeFiles/monitor.dir/src/format.cpp.o
  ../include/format.h
  /home/phyllip/Documents/projects/CppND-System-Monitor/src/format.cpp
 CMakeFiles/monitor.dir/src/linux_parser.cpp.o
+ ../include/file_manager.h
  ../include/linux_parser.h
  /home/phyllip/Documents/projects/CppND-System-Monitor/src/linux_parser.cpp
 CMakeFiles/monitor.dir/src/main.cpp.o

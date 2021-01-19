@@ -6,18 +6,52 @@
 #include <unordered_map>
 
 #include "linux_parser.h"
+#include "file_manager.h"
 
 using std::string;
 using std::to_string;
 using std::vector;
 using std::unordered_map;
 using std::stoll;
-
+using std::cout;
+using std::endl;
 
 // return string converted to long
 long LinuxParser::to_long(string number) {
   return stoll(number, nullptr, 10);
 }
+
+
+
+
+StreamSingle ss;
+  StreamMultiple sm;
+
+  Stream::token_ids TokenIDs{};
+  Stream::token_values TokenValues;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // return single line of data from a file, eg. /proc/[PID]/stat
 string LinuxParser::GetFileLine(string FileName) {

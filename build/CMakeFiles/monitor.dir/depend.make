@@ -7,6 +7,7 @@ CMakeFiles/monitor.dir/src/file_manager.cpp.o: ../src/file_manager.cpp
 CMakeFiles/monitor.dir/src/format.cpp.o: ../include/format.h
 CMakeFiles/monitor.dir/src/format.cpp.o: ../src/format.cpp
 
+CMakeFiles/monitor.dir/src/linux_parser.cpp.o: ../include/file_manager.h
 CMakeFiles/monitor.dir/src/linux_parser.cpp.o: ../include/linux_parser.h
 CMakeFiles/monitor.dir/src/linux_parser.cpp.o: ../src/linux_parser.cpp
 
