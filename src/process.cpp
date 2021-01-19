@@ -15,11 +15,11 @@ using std::vector;
 // constructor
 Process::Process(int pid) { 
     pid_ = pid; 
-    User_ = string(); //LinuxParser::User(pid);
-    CpuUtilization_ = 0.0; //LinuxParser::CpuUtilization(pid);
-    RamUtilization_ = to_string(5);//LinuxParser::Ram(pid);
+    User_ = "user";//LinuxParser::User(pid);
+    CpuUtilization_ = LinuxParser::CpuUtilization(pid);
+    RamUtilization_ = LinuxParser::Ram(pid);
     Uptime_ = LinuxParser::UpTime(pid);
-    Command_ = string();
+    Command_ = LinuxParser::Command(pid);
 }
 
 // TODO: Return this process's ID

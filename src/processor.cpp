@@ -19,30 +19,27 @@ float Processor::Utilization() {
     }
 
     // get latest parms
-    if (LinuxParser::GetValueFileStatCPU(parms_current)) {  
-        if (parms_prev.size() > 0) {
-            // compute using algorithm by Vangelis Tasoulas
-            // https://stackoverflow.com/questions/23367857/accurate-calculation-of-cpu-usage-given-in-percentage-in-linux
-            PrevIdle = ParmPrev("idle") + ParmPrev("iowait"); 
-            Idle = ParmCurrent("idle") + ParmCurrent("iowait"); 
-            
-            PrevNonIdle = ParmPrev("user") + ParmPrev("nice") + ParmPrev("system") + ParmPrev("irq") + ParmPrev("softirq") + ParmPrev("steal");
-            NonIdle = ParmCurrent("user") + ParmCurrent("nice") + ParmCurrent("system") + ParmCurrent("irq") + ParmCurrent("softirq") + ParmCurrent("steal");
-            
-            PrevTotal = PrevIdle + PrevNonIdle;
-            Total = Idle + NonIdle;
+    LinuxParser::CPU(parms_current);
+    
+    if (parms_prev.size() > 0) {
+        // compute using algorithm by Vangelis Tasoulas
+        // https://stackoverflow.com/questions/23367857/accurate-calculation-of-cpu-usage-given-in-percentage-in-linux
+        PrevIdle = ParmPrev("idle") + ParmPrev("iowait"); 
+        Idle = ParmCurrent("idle") + ParmCurrent("iowait"); 
+        
+        PrevNonIdle = ParmPrev("user") + ParmPrev("nice") + ParmPrev("system") + ParmPrev("irq") + ParmPrev("softirq") + ParmPrev("steal");
+        NonIdle = ParmCurrent("user") + ParmCurrent("nice") + ParmCurrent("system") + ParmCurrent("irq") + ParmCurrent("softirq") + ParmCurrent("steal");
+        
+        PrevTotal = PrevIdle + PrevNonIdle;
+        Total = Idle + NonIdle;
 
-            totald = Total - PrevTotal;
-            idled = Idle - PrevIdle;
+        totald = Total - PrevTotal;
+        idled = Idle - PrevIdle;
 
-            CPU_Percentage = float(totald - idled) / float(totald);
+        CPU_Percentage = float(totald - idled) / float(totald);
 
-            return CPU_Percentage;
-        } else {
-            return 0;
-        };
+        return CPU_Percentage;
     } else {
-        // unable to retrive current parms
         return 0.0;
     };
 }

@@ -1,14 +1,9 @@
+#include <iostream>
+#include <string>
 #include "file_manager.h"
 
 using std::cout;
 using std::endl;
-
-// print tokens
-void PrintTokens(Stream::token_ids TokenIDs, Stream::token_values &TokenVals) {
-    for (auto TokenID : TokenIDs) {
-        cout << "TOKEN IDX: " << TokenID.first << " NAME: " << TokenID.second << " VALUE: " << TokenVals[TokenID.second] << endl;        
-    }
-}
 
 Stream::token_values Stream::GetData(string FileName,
                     token_ids TokenIDs,
@@ -16,13 +11,13 @@ Stream::token_values Stream::GetData(string FileName,
                     string KeyValue,
                     char delimiter) 
 {
-    Stream::token_values TVs {};
-    cout << endl << "Stream.GetData - " << FileName << endl;
+    Stream::token_values TokenValues {};
     std::ifstream filestream(FileName);
     if (filestream.is_open()) {
+        // process using virtual function defined in derived classes
         return process(filestream, TokenIDs, KeyColumn, KeyValue, delimiter);
     } else {
-        return TVs;
+        return TokenValues;
     }
 }
 
@@ -32,12 +27,10 @@ Stream::token_values StreamSingle::process(std::ifstream &filestream,
                         string KeyValue,
                         char delimiter) 
 {
-    cout << "StreamSingle.process" << endl;
+    // process single line file
     Stream::token_values TokenVals {};
-    if (GetLine(filestream, delimiter, TokenIDs, TokenVals)) {
-        PrintTokens(TokenIDs, TokenVals);
-        return TokenVals;
-    }
+    GetLine(filestream, delimiter, TokenIDs, TokenVals);
+    return TokenVals;
 } 
 
 Stream::token_values StreamMultiple::process(std::ifstream &filestream,
@@ -46,16 +39,11 @@ Stream::token_values StreamMultiple::process(std::ifstream &filestream,
                         string KeyValue,
                         char delimiter) 
 {
-    //sm.GetData(kProcDirectory + kStatFilename, TokenIDs, false, "cpu");  
-    cout << "StreamMultiple.process" << endl;
-    cout << "KeyColumn: " << KeyColumn << " KeyValue: " << KeyValue << endl;
+    // process multiple line file
     Stream::token_values TokenVals {};
     while (GetLine(filestream, delimiter, TokenIDs, TokenVals)) {
-        if (TokenVals[KeyColumn] == KeyValue) { 
-            PrintTokens(TokenIDs, TokenVals);
-            return TokenVals; }
+        if (TokenVals[KeyColumn] == KeyValue) { return TokenVals; }
     }
-    cout << "StreamMultiple.process - key not found" << endl;
     return TokenVals;
 } 
 
@@ -104,6 +92,10 @@ void Stream::GetLineSplit(string &line, char delimiter, std::vector <string> &Ra
 
 void Stream::GetLineTokenize(std::vector <string> &RawTokens, token_ids &TokenIDs, token_values &TokenValues) {
     // return vector of tokens corresponding to the TokenIDs    
-    for (auto TokenID : TokenIDs) 
-        { TokenValues[TokenID.second] = RawTokens[TokenID.first]; }
+    for (auto TokenID : TokenIDs) { 
+        // confirm there is a RawToken at the index specified TokenID.first, 
+        // TokenID indexs begin at 0 
+        if (RawTokens.size() >= TokenID.first + 1) 
+            { TokenValues[TokenID.second] = RawTokens[TokenID.first]; }
+    }
 }

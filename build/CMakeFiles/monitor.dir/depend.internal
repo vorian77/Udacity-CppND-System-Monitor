@@ -12,7 +12,6 @@ CMakeFiles/monitor.dir/src/linux_parser.cpp.o
  ../include/linux_parser.h
  /home/phyllip/Documents/projects/CppND-System-Monitor/src/linux_parser.cpp
 CMakeFiles/monitor.dir/src/main.cpp.o
- ../include/file_manager.h
  ../include/ncurses_display.h
  ../include/process.h
  ../include/processor.h

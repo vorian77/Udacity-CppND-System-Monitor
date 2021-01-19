@@ -28,13 +28,7 @@ int TotalProcesses();
 int RunningProcesses();
 std::string OperatingSystem();
 std::string Kernel();
-std::string GetValueFileStat(std::string); 
-std::string GetValueFileUptime(); 
-std::string GetValueFileColon(std::string, std::string);
-std::string GetValueFilePasswd(std::string);
-bool GetValueFileStatCPU(std::unordered_map<std::string, std::string> &); 
-long to_long(std::string);
-std::string GetFileLine(std::string);
+void CPU(std::unordered_map<std::string, std::string> &);
 
 // CPU
 enum CPUStates {
@@ -61,6 +55,10 @@ std::string Uid(int pid);
 std::string User(int pid);
 long int UpTime(int pid);
 float CpuUtilization(int pid);
+
+// helper
+long to_long(std::string);
+
 };  // namespace LinuxParser
 
 #endif

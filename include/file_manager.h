@@ -43,7 +43,6 @@ class Stream {
     void GetLineTokenize(std::vector <string> &RawTokens, token_ids &TokenIDs, token_values &TokenValues);
 };
 
-
 // class used for processing single line files
 class StreamSingle: public Stream 
 {
@@ -66,8 +65,5 @@ class StreamMultiple: public Stream
                         string KeyValue="",
                         char delimiter=' ');
 };
-
-
-// class used for processing special case multiple line file to extract operting system
 
 #endif
