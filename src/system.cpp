@@ -43,10 +43,10 @@ vector<Process>& System::Processes() {
     processes_.clear();
     
     // get list of current process ids
-    std::vector<int> pid_list = LinuxParser::Pids();
+    std::vector<int> pids = LinuxParser::Pids();
     
     // for each process id...
-    for (int pid: pid_list) {
+    for (int pid : pids) {
         // create a process object
         Process new_process(pid);
         

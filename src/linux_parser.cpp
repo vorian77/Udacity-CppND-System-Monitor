@@ -7,7 +7,6 @@
 
 #include "linux_parser.h"
 
-using std::stof;
 using std::string;
 using std::to_string;
 using std::vector;
@@ -28,13 +27,13 @@ string LinuxParser::GetFileLine(string FileName) {
     std::getline(filestream, line);
     return line;
   } else {
-    return NULL;
+    return "";
   }
 }
 
 // return vector of tokens from line of data with space " " as delimiter
 // derived from: https://www.geeksforgeeks.org/tokenizing-a-string-cpp/
-vector <string> tokenize (string line) {
+vector <string> tokenize_old (string line) {
   vector <string> tokens; 
   
   // stringstream class check1 
@@ -181,6 +180,7 @@ string LinuxParser::Kernel() {
   }
   return kernel;
 }
+
 // TODO: Read and return the system memory utilization
 float LinuxParser::MemoryUtilization() { 
   // return memory used as memory used / total memory, 
@@ -248,7 +248,7 @@ float LinuxParser::CpuUtilization(int pid) {
   // get all tokens from the process's stat file
   string FileName = kProcDirectory + to_string(pid) + kStatFilename;
   string line = GetFileLine(FileName);
-  vector <string> tokens = tokenize(line);
+  vector <string> tokens = tokenize_old(line);
 
   // extract needed tokens
   long utime = to_long(tokens[13]);
@@ -258,7 +258,7 @@ float LinuxParser::CpuUtilization(int pid) {
   long starttime = to_long(tokens[21]);
 
   // get additional data
-  long uptime = UpTime();
+  long uptime = UpTime();  // of the system
   long Hertz = sysconf(_SC_CLK_TCK);  // clock ticks per second
   
   // calculation
@@ -270,16 +270,31 @@ float LinuxParser::CpuUtilization(int pid) {
 
 // TODO: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function
-int LinuxParser::Ram(int pid) { 
+string LinuxParser::Ram(int pid) { 
   string RamInKb = GetValueFileColon(to_string(pid) + kStatusFilename, "VmSize");
   
   // cast ram in megabytes
-  return to_long(RamInKb) / 1000;
+  return to_string(to_long(RamInKb) / 1024);
 }
 
 // TODO: Read and return the uptime of a process
 // REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::UpTime(int pid[[maybe_unused]]) { return 0; }
+long LinuxParser::UpTime(int pid) { 
+// get all tokens from the process's stat file
+  string FileName = kProcDirectory + to_string(pid) + kStatFilename + 'A';
+  string line = GetFileLine(FileName);
+  return 0;
+  vector <string> tokens = tokenize_old(line);
+
+  // extract starttime token - clock ticks since the process started after system boot
+  long starttime = to_long(tokens[21]);
+
+  // convert starttime to seconds 
+  long Hertz = sysconf(_SC_CLK_TCK);  // clock ticks per second
+  long UpTime = starttime / Hertz;
+  
+  return  UpTime;
+}
 
 // TODO: Read and return the command associated with a process
 // REMOVE: [[maybe_unused]] once you define the function

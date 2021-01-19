@@ -123,6 +123,33 @@ monitor/fast:
 	$(MAKE) -f CMakeFiles/monitor.dir/build.make CMakeFiles/monitor.dir/build
 .PHONY : monitor/fast
 
+src/file_manager.o: src/file_manager.cpp.o
+
+.PHONY : src/file_manager.o
+
+# target to build an object file
+src/file_manager.cpp.o:
+	$(MAKE) -f CMakeFiles/monitor.dir/build.make CMakeFiles/monitor.dir/src/file_manager.cpp.o
+.PHONY : src/file_manager.cpp.o
+
+src/file_manager.i: src/file_manager.cpp.i
+
+.PHONY : src/file_manager.i
+
+# target to preprocess a source file
+src/file_manager.cpp.i:
+	$(MAKE) -f CMakeFiles/monitor.dir/build.make CMakeFiles/monitor.dir/src/file_manager.cpp.i
+.PHONY : src/file_manager.cpp.i
+
+src/file_manager.s: src/file_manager.cpp.s
+
+.PHONY : src/file_manager.s
+
+# target to generate assembly for a file
+src/file_manager.cpp.s:
+	$(MAKE) -f CMakeFiles/monitor.dir/build.make CMakeFiles/monitor.dir/src/file_manager.cpp.s
+.PHONY : src/file_manager.cpp.s
+
 src/format.o: src/format.cpp.o
 
 .PHONY : src/format.o
@@ -321,6 +348,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... monitor"
+	@echo "... src/file_manager.o"
+	@echo "... src/file_manager.i"
+	@echo "... src/file_manager.s"
 	@echo "... src/format.o"
 	@echo "... src/format.i"
 	@echo "... src/format.s"
