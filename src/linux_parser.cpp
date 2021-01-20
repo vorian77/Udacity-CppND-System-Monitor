@@ -139,7 +139,6 @@ float LinuxParser::CpuUtilization(int pid) {
   // using algorithm: https://stackoverflow.com/questions/16726779/how-do-i-get-the-total-cpu-usage-of-an-application-from-proc-pid-stat/16736599#16736599
   
   TokenIDs = {};
-  TokenIDs.push_back(std::make_pair(0, "key"));
   TokenIDs.push_back(std::make_pair(13, "utime"));
   TokenIDs.push_back(std::make_pair(14, "stime"));
   TokenIDs.push_back(std::make_pair(15, "cutime"));
@@ -161,7 +160,7 @@ float LinuxParser::CpuUtilization(int pid) {
   // calculation
   long total_time = utime + stime + cutime + cstime;
   float seconds = float(uptime) - float(starttime / Hertz);
-  float cpu_usage = 100 * (float(total_time / Hertz) / seconds);
+  float cpu_usage = (float(total_time / Hertz) / seconds);
   return cpu_usage; 
 }
 
