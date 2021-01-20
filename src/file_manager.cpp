@@ -50,6 +50,8 @@ Stream::token_values StreamMultiple::process(std::ifstream &filestream,
 bool Stream::GetLine(std::ifstream &filestream, char delimiter, token_ids &TokenIDs, token_values &TokenVals) {
     string line;
     std::vector <string> RawTokens;
+
+    // multi step process to tokenize a line of data from a file
     if (!GetLineExtract(filestream, line)) { return false; }
     GetLineScrub(line);
     GetLineSplit(line, delimiter, RawTokens);

@@ -15,7 +15,7 @@ using std::vector;
 // constructor
 Process::Process(int pid) { 
     pid_ = pid; 
-    User_ = "user";//LinuxParser::User(pid);
+    User_ = LinuxParser::User(pid);
     CpuUtilization_ = LinuxParser::CpuUtilization(pid);
     RamUtilization_ = LinuxParser::Ram(pid);
     Uptime_ = LinuxParser::UpTime(pid);

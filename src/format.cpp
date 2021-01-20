@@ -16,6 +16,10 @@ void divide(long divisor, long dividend, long & quotient, long & remainder) {
     remainder = dividend % divisor;
 }
 
+string format_val(long val) {
+    return (val < 10) ? '0' + to_string(val) : to_string(val);
+}
+
 string Format::ElapsedTime(long seconds) { 
     long divisor, dividend, quotient, remainder;
     string rtn;
@@ -24,13 +28,13 @@ string Format::ElapsedTime(long seconds) {
     divisor = 3600;
     dividend = seconds;
     divide(divisor, dividend, quotient, remainder);
-    rtn = to_string(quotient);
+    rtn = format_val(quotient);
 
     // compute minutes & minutes
     divisor = 60;
     dividend = remainder;
     divide(divisor, dividend, quotient, remainder);
-    rtn = rtn + ":" + to_string(quotient) + ":" + to_string(remainder) + " ";
+    rtn = rtn + ":" + format_val(quotient) + ":" + format_val(remainder);
 
    return string(rtn); 
 }
