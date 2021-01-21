@@ -175,17 +175,23 @@ string LinuxParser::Ram(int pid) {
 }
 
 long LinuxParser::UpTime(int pid) { 
+  // calculate process uptime as system starttime less process starttime 
+  // converted to seconds 
+  
+  // get system uptime (in seconds)
+  long SysUpTime = UpTime();
+  
+  // calculate process uptime (in seconds)
   TokenIDs = {};
   TokenIDs.push_back(std::make_pair(21, "starttime"));
   TokenValues = ss.GetData(kProcDirectory + std::to_string(pid) + kStatFilename, TokenIDs);
+  long ProcUPTime = to_long(TokenValues["starttime"]);  // in clock ticks
 
-  long starttime = to_long(TokenValues["starttime"]);
-
-  // convert starttime to seconds 
+  // convert to seconds
   long Hertz = sysconf(_SC_CLK_TCK);  // clock ticks per second
-  long UpTime = starttime / Hertz;
-  
-  return  UpTime;
+  ProcUPTime = ProcUPTime / Hertz;
+
+  return SysUpTime - ProcUPTime;
 }
 
 string LinuxParser::Command(int pid) { 
