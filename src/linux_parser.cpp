@@ -175,13 +175,12 @@ string LinuxParser::Ram(int pid) {
 }
 
 long LinuxParser::UpTime(int pid) { 
-  // calculate process uptime as system starttime less process starttime 
-  // converted to seconds 
+  // calculate process uptime as system up time less time since process started
   
   // get system uptime (in seconds)
   long SysUpTime = UpTime();
   
-  // calculate process uptime (in seconds)
+  // calculate process uptime
   TokenIDs = {};
   TokenIDs.push_back(std::make_pair(21, "starttime"));
   TokenValues = ss.GetData(kProcDirectory + std::to_string(pid) + kStatFilename, TokenIDs);
