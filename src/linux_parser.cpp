@@ -208,7 +208,7 @@ string LinuxParser::Command(int pid) {
 
 // TODO: Read and return the number of active jiffies for a PID
 // REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
+//long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
 
 
 // BONUS: Update this to use std::filesystem
