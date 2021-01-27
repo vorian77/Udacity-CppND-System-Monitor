@@ -6,6 +6,22 @@
 
 #IncludeRegexTransform: 
 
+../include/file_manager.h
+iostream
+-
+fstream
+-
+sstream
+-
+regex
+-
+vector
+-
+string
+-
+unordered_map
+-
+
 ../include/linux_parser.h
 fstream
 -
@@ -18,25 +34,29 @@ vector
 unordered_map
 -
 
-../include/process.h
+/home/phyllip/Documents/projects/CppND-System-Monitor/src/file_manager.cpp
+iostream
+-
 string
 -
+file_manager.h
+/home/phyllip/Documents/projects/CppND-System-Monitor/src/file_manager.h
 
-/home/phyllip/Documents/projects/CppND-System-Monitor/src/process.cpp
+/home/phyllip/Documents/projects/CppND-System-Monitor/src/linux_parser.cpp
+iostream
+-
+dirent.h
+-
 unistd.h
--
-cctype
--
-sstream
 -
 string
 -
 vector
 -
-iostream
+unordered_map
 -
-process.h
-/home/phyllip/Documents/projects/CppND-System-Monitor/src/process.h
 linux_parser.h
 /home/phyllip/Documents/projects/CppND-System-Monitor/src/linux_parser.h
+file_manager.h
+/home/phyllip/Documents/projects/CppND-System-Monitor/src/file_manager.h
 

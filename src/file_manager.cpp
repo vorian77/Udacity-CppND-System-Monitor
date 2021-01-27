@@ -5,44 +5,31 @@
 using std::cout;
 using std::endl;
 
-Stream::token_values Stream::GetData(string FileName,
-                    token_ids TokenIDs,
-                    string KeyColumn,
-                    string KeyValue,
-                    char delimiter) 
+Stream::token_values StreamSingle::GetData(string FileName, token_ids TokenIDs, char delimiter) 
 {
     Stream::token_values TokenValues {};
     std::ifstream filestream(FileName);
     if (filestream.is_open()) {
-        // process using virtual function defined in derived classes
-        return process(filestream, TokenIDs, KeyColumn, KeyValue, delimiter);
-    } else {
-        return TokenValues;
+        GetLine(filestream, delimiter, TokenIDs, TokenValues);
+        return TokenValues;    
     }
+    return TokenValues;
 }
 
-Stream::token_values StreamSingle::process(std::ifstream &filestream,
-                        token_ids TokenIDs,
-                        string KeyColumn,
-                        string KeyValue,
-                        char delimiter) 
+Stream::token_values StreamMultiple::GetData(string FileName,
+                            token_ids TokenIDs,
+                            string KeyColumn,
+                            string KeyValue,
+                            char delimiter)
 {
-    // process single line file
     Stream::token_values TokenVals {};
-    GetLine(filestream, delimiter, TokenIDs, TokenVals);
-    return TokenVals;
-} 
-
-Stream::token_values StreamMultiple::process(std::ifstream &filestream,
-                        token_ids TokenIDs,
-                        string KeyColumn,
-                        string KeyValue,
-                        char delimiter) 
-{
-    // process multiple line file
-    Stream::token_values TokenVals {};
-    while (GetLine(filestream, delimiter, TokenIDs, TokenVals)) {
-        if (TokenVals[KeyColumn] == KeyValue) { return TokenVals; }
+    std::ifstream filestream(FileName);
+    if (filestream.is_open()) {
+        // process multiple line file
+        while (GetLine(filestream, delimiter, TokenIDs, TokenVals)) {
+            if (TokenVals[KeyColumn] == KeyValue) { return TokenVals; }
+        }
+        return TokenVals;
     }
     return TokenVals;
 } 
